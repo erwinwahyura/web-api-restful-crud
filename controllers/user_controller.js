@@ -11,16 +11,17 @@ require('dotenv').config()
 var methods = {}
 //cara 1, save is more faster than .create
 methods.signUp = function(req, res){
+
     var hash = bcrypt.hashSync(req.body.password, salt);
     console.log('hasnyanyaaaa ',hash);
     var user = new user_model({
       username: req.body.username,
       password: hash,
-      email: req.body.email
+      email: req.body.email,
+      role: req.body.role
     })
     user.save(function(err,result){
-        console.log('usernya', user);
-
+      console.log('usernya', user);
       if(!err) res.send('success \n'+result)
       else res.send(err.message)
     })
@@ -31,7 +32,7 @@ methods.signIn = function(req, res) {
   let password = req.body.password
   user_model.find({username: username, password: password}, function(err, result) {
     if (bcrypt.compare(req.body.password, result.password)) {
-      var token = jwt.sign({username: result.username, email: result.email}, process.env.SECRET)
+      var token = jwt.sign({username: result.username, email: result.email, role: result.role}, process.env.SECRET)
       res.send(token)
     } else {
       res.send('Silahkan Login terlebih dahhulu')
@@ -42,40 +43,5 @@ methods.signIn = function(req, res) {
 methods.logOut = function(req, res) {
   var token = ''
 }
-//cara 2
-// methods.add_memo2 = function(req, res) {
-//   let query = {title:req.body.title, text:req.body.text, author:req.body.author}
-//   memo_model.create(query, function(err, memo) {
-//     if(!err) res.send(memo)
-//     else res.send(err)
-//   })
-// }
-//
-// methods.getAllMemo = function(req, res) {
-//   memo_model.find(function(err, memo) {
-//     if(!err) res.send(memo)
-//     else console.log(err);
-//   })
-// }
-// //method deleteOne can also use remove, deleteOne with promise .then / callback and deleteMany
-// methods.delete_memo = function(req, res) {
-//   memo_model.deleteOne({_id:req.params.id}, function(err, result) {
-//     if(!err) res.send("success deleted")
-//     else res.send(err)
-//   })
-// }
-//
-// //trying using findOneandDelete
-// //docs : http://mongoosejs.com/docs/api.html#model_Model.findOneAndUpdate
-//
-// methods.update_memo = function(req, res) {
-//   let id = req.params._id
-//   let query_update = {title: req.body.title, text: req.body.text, author: req.body.author}
-//
-//   memo_model.findOneAndUpdate({_id:id}, {$set : {query_update}}, function(err, result) {
-//     if(!err) res.send("update successful\n"+ result)
-//     else res.send(err.message)
-//   })
-// }
 
 module.exports = methods

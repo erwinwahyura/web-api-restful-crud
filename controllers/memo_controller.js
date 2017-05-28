@@ -2,10 +2,13 @@ var express = require('express')
 var router = express.Router()
 var mongoose = require('mongoose')
 const memo_model = require('../models/memo.js')
+var jwt = require('jsonwebtoken');
+var bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 var methods = {}
 //cara 1, save is more faster than .create
-methods.add_memo = function(req,res){
+methods.add_memo = function(req, res, next){
     var memo = new memo_model({
       title:req.body.title,
       text:req.body.text,
@@ -17,7 +20,7 @@ methods.add_memo = function(req,res){
     })
 }
 //cara 2
-methods.add_memo2 = function(req, res) {
+methods.add_memo2 = function(req, res, next) {
   let query = {title:req.body.title, text:req.body.text, author:req.body.author}
   memo_model.create(query, function(err, memo) {
     if(!err) res.send(memo)
@@ -25,14 +28,14 @@ methods.add_memo2 = function(req, res) {
   })
 }
 
-methods.getAllMemo = function(req, res) {
+methods.getAllMemo = function(req, res, next) {
   memo_model.find(function(err, memo) {
     if(!err) res.send(memo)
     else console.log(err);
   })
 }
 //method deleteOne can also use remove, deleteOne with promise .then / callback and deleteMany
-methods.delete_memo = function(req, res) {
+methods.delete_memo = function(req, res, next) {
   memo_model.deleteOne({_id:req.params.id}, function(err, result) {
     if(!err) res.send("success deleted")
     else res.send(err)
@@ -42,7 +45,7 @@ methods.delete_memo = function(req, res) {
 //trying using findOneandDelete
 //docs : http://mongoosejs.com/docs/api.html#model_Model.findOneAndUpdate
 
-methods.update_memo = function(req, res) {
+methods.update_memo = function(req, res, next) {
   let id = req.params._id
   let query_update = {title: req.body.title, text: req.body.text, author: req.body.author}
 
