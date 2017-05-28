@@ -46,7 +46,7 @@ methods.update_memo = function(req, res) {
   let id = req.params._id
   let query_update = {title: req.body.title, text: req.body.text, author: req.body.author}
 
-  memo_model.findOneAndUpdate({_id:id}, {$set : {query_update}}, function(err, result) {
+  memo_model.findOneAndUpdate({_id:id}, {$set : {title: req.body.title, text: req.body.text, author: req.body.author}}, function(err, result) {
     if(!err) res.send("update successful\n"+ result)
     else res.send(err.message)
   })
