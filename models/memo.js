@@ -2,9 +2,19 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var memoSchema = new Schema({
-  title:  String,
-  author: String,
-  status:   Boolean
+  title:  {
+    type : String,
+    required : true,
+    unique : true
+  },
+  text: {
+    type : String,
+    required : true
+  },
+  author: {
+    type : String,
+    required : true
+  }
 });
 
 var memo = mongoose.model('Memo', memoSchema);
