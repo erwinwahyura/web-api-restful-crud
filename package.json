@@ -1,0 +1,23 @@
+{
+  "name": "web-api-restful-crud",
+  "version": "1.0.0",
+  "description": "make web api restful crud with authorization and authentication",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/erwinwahyura/web-api-restful-crud.git"
+  },
+  "author": "erwinwahyura",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/erwinwahyura/web-api-restful-crud/issues"
+  },
+  "homepage": "https://github.com/erwinwahyura/web-api-restful-crud#readme",
+  "dependencies": {
+    "express": "^4.15.3",
+    "nodemon": "^1.11.0"
+  }
+}
