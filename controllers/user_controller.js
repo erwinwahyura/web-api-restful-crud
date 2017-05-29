@@ -41,7 +41,12 @@ methods.signIn = function(req, res) {
 }
 
 methods.logOut = function(req, res) {
-  var token = ''
+  var token = req.headers.token
+  if (token) {
+    token = ''
+    res.send('Terimakasih Telah menggunakan memos')
+  }
+
 }
 
 module.exports = methods
